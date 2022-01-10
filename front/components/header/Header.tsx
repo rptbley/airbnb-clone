@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
+import useModal from "../../hooks/useModal";
 import palette from "../../styles/palette";
+import SignUpModal from "../auth/SignUpModal";
 import CustomImage from "../image/CustomImage";
 
 const Container = styled.div`
@@ -55,36 +57,10 @@ const Container = styled.div`
             }
         }
     }
-    
-    .modal-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-
-        .modal-background {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            z-index: 10;
-        }
-
-        .modal-contents {
-            width: 400px;
-            height: 400px;
-            background-color: white;
-            z-index: 11;
-        }
-    }
 `;
 
 const Header: React.FC = () => {
-    const [modalOpened, setModalOpened] = useState(false);
+    const { openModal, ModalPortal } = useModal();
 
     const router = useRouter();
 
@@ -101,9 +77,7 @@ const Header: React.FC = () => {
                 <button
                     type="button"
                     className="header-sign-up-button"
-                    onClick={() => {
-                        setModalOpened(true);
-                    }}    
+                    onClick={openModal}    
                 >
                     회원가입
                 </button>
@@ -111,16 +85,9 @@ const Header: React.FC = () => {
                     로그인
                 </button>
             </div>
-            {modalOpened && (
-                <div className="modal-wrapper">
-                    <div
-                        className="modal-background" 
-                        role="presentation"
-                        onClick={() => {setModalOpened(false)}}
-                    />
-                    <div className="modal-contents" />
-                </div>
-            )}
+            <ModalPortal>
+                <SignUpModal/>
+            </ModalPortal>
         </Container>
     )
 }
