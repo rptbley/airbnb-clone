@@ -28,16 +28,23 @@ const Container = styled.div`
 
 interface IProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     options?: string[];
+    disabledOptions?: string[];
     value?: string;
 }
 
 const Selector: React.FC<IProps> = ({
     options = [],
+    disabledOptions = [],
     ...props
 }) => {
     return (
         <Container>
             <select {...props}>
+                {disabledOptions.map((option, index) => (
+                    <option key={index} value={option} disabled>
+                        {option}
+                    </option>
+                ))}
                 {options.map((option, index) => (
                     <option key={index} value={option}>
                         {option}

@@ -1,7 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { monthList } from "../../lib/staticData";
+import { StoredUserType } from "../../lib/api/types/user";
+import { resgisterUser } from "../../lib/api/user";
+import { dayList, monthList, yearList } from "../../lib/staticData";
+import { userActions } from "../../store/user";
 import palette from "../../styles/palette";
+import Button from "../common/Button";
 import Input from "../common/Input";
 import Selector from "../common/Selector";
 import CustomImage from "../image/CustomImage";
@@ -39,6 +44,29 @@ const Container = styled.div`
         margin-bottom: 16px;
         color: ${palette.charcoal};
     }
+
+    .sign-up-modal-birthday-selectors {
+        display: flex;
+        margin-bottom: 24px;
+
+        .sign-up-modal-birthday-month-selector {
+            margin-right: 16px;
+            flex-grow: 1;
+        }
+        .sign-up-modal-birthday-day-selector {
+            margin-right: 16px;
+            width: 25%;
+        }
+        .sign-up-modal-birthday-year-selector {
+            width: 33.3333%;
+        }
+    }
+
+    .sign-up-modal-submit-button-wrapper {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid ${palette.gray_eb};
+    }
 `;
 
 const SignUpModal: React.FC = () => {
@@ -46,6 +74,12 @@ const SignUpModal: React.FC = () => {
     const [lastname, setLastname] = useState("");
     const [firstname, setFirstname] = useState("");
     const [password, setPassword] = useState("");
+
+    const [year, setYear] = useState<string | undefined>();
+    const [month, setMonth] = useState<string | undefined>();
+    const [day, setDay] = useState<string | undefined>();
+
+    const dispatch = useDispatch();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let id = e.target.id;
@@ -64,10 +98,39 @@ const SignUpModal: React.FC = () => {
         }
     }
 
+    const onChangeBirth = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        let id = e.target.id;
+        let value = e.target.value;
+        switch(id) {
+            case "year":
+                return setYear(value);
+            case "month":
+                return setMonth(value);
+            case "day":
+                return setDay(value);
+            default:
+                return;
+        }
+    }
+
     const [togglePw, setTogglePw] = useState(false);
     const passwordView = () => {
         setTogglePw(!togglePw);
-    } 
+    }
+
+    const test = async () => {
+        const param: StoredUserType = {
+            email: email,
+            password: password,
+            firstname: firstname,
+            lastname: lastname,
+            birthday: `${year} -${month}-${day}`,
+            profileImage: ""
+        }
+
+        const {data: data} = await resgisterUser(param);
+        dispatch(userActions.setLoggedUser(data));
+    }
     return (
         <Container>
             <CustomImage subClassName="modal-close-x-icon" src="static/svg/modal/modal_close_x_icon.svg"/>
@@ -118,7 +181,38 @@ const SignUpModal: React.FC = () => {
             <p className="sign-up-modal-birthday-info">
                 만 18세 이상의 성인만 회원으로 가입할 수 있습니다.<br/>생일은 다른 에어비앤비 이용자에게 공개되지 않습니다.
             </p>
-            <Selector options={monthList}/>
+            <div className="sign-up-modal-birthday-selectors">
+                <div className="sign-up-modal-birthday-month-selector">
+                    <Selector
+                        id="month"
+                        options={monthList}
+                        disabledOptions={["월"]}
+                        defaultValue="월"
+                        onChange={onChangeBirth}
+                    />
+                </div>
+                <div className="sign-up-modal-birthday-day-selector">
+                    <Selector
+                        id="day"
+                        options={dayList}
+                        disabledOptions={["일"]}
+                        defaultValue="일"
+                        onChange={onChangeBirth}
+                    />
+                </div>
+                <div className="sign-up-modal-birthday-year-selector">
+                    <Selector
+                        id="year"
+                        options={yearList}
+                        disabledOptions={["년"]}
+                        defaultValue="년"
+                        onChange={onChangeBirth}
+                    />
+                </div>
+            </div>
+            <div className="sign-up-modal-submit-button-wrapper">
+                <Button type="submit" onClick={test}>가입하기</Button>
+            </div>
         </Container>
     )
 }

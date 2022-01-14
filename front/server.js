@@ -2,10 +2,8 @@ const express = require('express');
 const next = require('next');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
 const path = require('path');
-
-dotenv.config();
+;
 
 const port = parseInt(process.env.PORT) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
