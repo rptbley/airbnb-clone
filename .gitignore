@@ -1,0 +1,7 @@
+/front/node_modules
+/server/node_modules
+/front/.env
+/server/.env
+.vscode
+
+/front/.next
