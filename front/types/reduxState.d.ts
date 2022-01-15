@@ -5,3 +5,7 @@ export type UserState = {
     msg: string;
     userInfo: returnUserType;
 }
+
+export type CommonState = {
+    validateMode: boolean;
+}

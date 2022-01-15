@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import useValidateMode from "../../hooks/useValidateMode";
 import { StoredUserType } from "../../lib/api/types/user";
 import { resgisterUser } from "../../lib/api/user";
 import { dayList, monthList, yearList } from "../../lib/staticData";
@@ -10,6 +11,7 @@ import Button from "../common/Button";
 import Input from "../common/Input";
 import Selector from "../common/Selector";
 import CustomImage from "../image/CustomImage";
+import PasswordWarning from "./PasswordWarning";
 
 
 const Container = styled.div`
@@ -69,6 +71,8 @@ const Container = styled.div`
     }
 `;
 
+const PASSWORD_MIN_LENGTH = 8;
+
 const SignUpModal: React.FC = () => {
     const [email, setEmail] = useState("");
     const [lastname, setLastname] = useState("");
@@ -79,7 +83,11 @@ const SignUpModal: React.FC = () => {
     const [month, setMonth] = useState<string | undefined>();
     const [day, setDay] = useState<string | undefined>();
 
+    const [togglePw, setTogglePw] = useState(false);
+    const [pwFocused, setPwFocused] = useState(false);
+
     const dispatch = useDispatch();
+    const { setValidateMode } = useValidateMode();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let id = e.target.id;
@@ -113,12 +121,41 @@ const SignUpModal: React.FC = () => {
         }
     }
 
-    const [togglePw, setTogglePw] = useState(false);
     const passwordView = () => {
         setTogglePw(!togglePw);
     }
 
+    const onFocusPw = () => {
+        setPwFocused(true);
+    }
+
+    const isPwHasNameOrEmail = useMemo(() =>
+        !password ||
+        !lastname ||
+        password.includes(lastname) ||
+        password.includes(email.split("@")[0]),
+        [password, lastname, email]
+    )
+
+    const isPwOverMinLength = useMemo(() =>
+        !!password && password.length >= PASSWORD_MIN_LENGTH,
+        [password]
+    )
+
+    const isPwhasNumberOrSymbol = useMemo(() => 
+        !(
+            /[{}[\]/?.,;:|)*~!^\-_+<>@#$%&\\]/g.test(password) ||
+            /[0-9]/g.test(password)
+        ),
+        [password]
+    );
+
     const test = async () => {
+        setValidateMode(true);
+
+        if(!email || !lastname || !firstname || !password) {
+            return undefined;
+        }
         const param: StoredUserType = {
             email: email,
             password: password,
@@ -142,6 +179,9 @@ const SignUpModal: React.FC = () => {
                     value={email}
                     onChange={onChange}
                     icon={<CustomImage src="static/svg/auth/mail.svg"/>}
+                    useValidation
+                    isValid={!!email}
+                    errorMsg="이메일이 필요합니다."
                 />
             </div>
             <div className="input-wrapper">
@@ -151,6 +191,9 @@ const SignUpModal: React.FC = () => {
                     placeholder="이름(예: 길동)"
                     onChange={onChange}
                     icon={<CustomImage src="static/svg/auth/person.svg"/>}
+                    useValidation
+                    isValid={!!lastname}
+                    errorMsg="이름을 입력하세요."
                 />
             </div>
             <div className="input-wrapper">
@@ -160,6 +203,9 @@ const SignUpModal: React.FC = () => {
                     placeholder="성(예: 홍)"
                     onChange={onChange}
                     icon={<CustomImage src="static/svg/auth/person.svg"/>}
+                    useValidation
+                    isValid={!!firstname}
+                    errorMsg="성을 입력하세요."
                 />
             </div>
             <div className="input-wrapper">
@@ -169,13 +215,37 @@ const SignUpModal: React.FC = () => {
                     placeholder="비밀번호 설정하기"
                     type={ togglePw ? "text" : "password" }
                     onChange={onChange}
+                    onFocus={onFocusPw}
                     icon={
                         <CustomImage
                             subClassName="password-toggle"
                             onClick={passwordView}
                             src={ togglePw ? "static/svg/auth/opened_eye.svg" : "static/svg/auth/closed_eye.svg" }
                         />}
+                    useValidation
+                    isValid={
+                        !isPwHasNameOrEmail &&
+                        isPwOverMinLength &&
+                        !isPwhasNumberOrSymbol
+                    }
+                    errorMsg="비밀번호를 입력하세요."
                 />
+                {pwFocused && (
+                    <>
+                        <PasswordWarning
+                            isValid={isPwHasNameOrEmail}
+                            text="비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다."
+                        />
+                        <PasswordWarning
+                            isValid={!isPwOverMinLength}
+                            text="최소 8자"
+                        />
+                        <PasswordWarning
+                            isValid={isPwhasNumberOrSymbol}
+                            text="숫자나 기호를 포함하세요."
+                        />
+                    </>
+                )}
             </div>
             <p className="sign-up-birthday-label">생일</p>
             <p className="sign-up-modal-birthday-info">
