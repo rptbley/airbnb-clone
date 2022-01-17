@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import useValidateMode from "../../hooks/useValidateMode";
+import { loginUserType } from "../../lib/api/types/user";
+import { loginUser } from "../../lib/api/user";
 import { authActions } from "../../store/auth";
+import { userActions } from "../../store/user";
 import palette from "../../styles/palette";
 import Button from "../common/Button";
 import Input from "../common/Input";
@@ -55,6 +59,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     const [isPwHided, setIsPwHided] = useState(true);
 
     const dispatch = useDispatch();
+    const { setValidateMode } = useValidateMode();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let target = e.target;
@@ -73,6 +78,32 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     const changeToSignupModal = () => {
         dispatch(authActions.setAuthMode("signup"));
     }
+
+    const login = async () => {
+        setValidateMode(true);
+
+        if(email && password) {
+            try {
+                const param: loginUserType = {
+                    email: email,
+                    password: password
+                }
+        
+                const {data: data} = await loginUser(param);
+                dispatch(userActions.setLoggedUser(data));
+                closeModal();
+            } catch(err) {
+                console.log(err)
+            }
+        }
+    }
+
+    useEffect(() => {
+        return () => {
+            setValidateMode(false);
+        }
+    }, [])
+
     return (
         <Container>
             <CustomImage subClassName="mordal-close-x-icon" src="static/svg/modal/modal_close_x_icon.svg" onClick={closeModal}/>
@@ -85,6 +116,8 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
                     value={email}
                     icon={<CustomImage src="static/svg/auth/mail.svg"/>}
                     onChange={onChange}
+                    isValid={email !== ""}
+                    errorMsg="이메일이 필요합니다."
                 />
             </div>
             <div className="login-input-wrapper login-password-input-wrapper">
@@ -99,10 +132,15 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
                     id="password"
                     value={password}
                     onChange={onChange}
+                    isValid={password !== ""}
+                    errorMsg="비밀번호를 입력하세요."
                 />
             </div>
             <div className="login-modal-submit-button-wrapper">
-                <Button type="submit">로그인</Button>
+                <Button
+                    type="button"
+                    onClick={login}
+                >로그인</Button>
             </div>
             <p>
                 혹시 에어비앤비 계정이 없으신가요? 

@@ -9,9 +9,9 @@ interface IProps {
 
 const CustomImage: React.FC<IProps> = ({ className, subClassName, onClick ,src }) => {
     return (
-        <div className={className}>
+        <>
             <img className={subClassName} onClick={onClick} src={src} />
-        </div>
+        </>
     )
 }
 

@@ -275,6 +275,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     }
                     errorMsg="비밀번호를 입력하세요."
                 />
+                <br/>
                 {pwFocused && (
                     <>
                         <PasswordWarning

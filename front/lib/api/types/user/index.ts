@@ -15,3 +15,8 @@ export type returnUserType = {
     birthday: string;
     profileImage?: string;
 }
+
+export type loginUserType = {
+    email: string;
+    password: string;
+}

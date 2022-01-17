@@ -133,7 +133,7 @@ const Header: React.FC = () => {
                 >
                     <CustomImage src="static/svg/header/hamburger.svg"/>
                     <img
-                        src={user.userInfo.profileImage}
+                        src={user.userInfo.profileImage ? user.userInfo.profileImage : "static/svg/auth/person.svg"}
                         className="header-user-profile-image"
                         alt=""
                     />
