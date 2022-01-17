@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useModal from "../../hooks/useModal";
@@ -83,10 +84,44 @@ const Container = styled.div`
             border-radius: 50%;
         }
     }
+
+    .header-logo-wrapper + div {
+        position: relative;
+    }
+
+    .header-usermenu {
+        position: absolute;
+        right: 0;
+        top: 52px;
+        width: 240px;
+        padding: 8px 0;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+        border-raidus: 8px;
+        background-color: white;
+        li {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 42px;
+            padding: 0 16px;
+            cursor: pointer;
+            &:hover {
+                background-color: ${palette.gray_f7};
+            }
+        }
+        .header-usermenu-divider {
+            width: 100%;
+            height: 1px;
+            margin: 8px 0;
+            background-color: ${palette.gray_dd};
+        }
+    }
 `;
 
 const Header: React.FC = () => {
     const user = useSelector(state => state.user);
+
+    const [isUsermenuOpened, setIsUsermenuOpened] = useState(false);
 
     const { openModal, ModalPortal, closeModal } = useModal();
 
@@ -95,6 +130,10 @@ const Header: React.FC = () => {
 
     const goHome = () => {
         router.push({pathname: "/"})
+    }
+
+    const goRegisterRoom = () => {
+        router.push({pathname: "/room/register/building"})
     }
     return (
         <Container>
@@ -127,9 +166,17 @@ const Header: React.FC = () => {
             </div>
             )}
             {user.isLogged && (
-                <button
+                <OutsideClickHandler
+                    onOutsideClick={() => {
+                        if(isUsermenuOpened) {
+                            setIsUsermenuOpened(false);
+                        }
+                    }}
+                >
+                    <button
                     className="header-user-profile"
                     type="button"
+                    onClick={() => setIsUsermenuOpened(!isUsermenuOpened)}
                 >
                     <CustomImage src="static/svg/header/hamburger.svg"/>
                     <img
@@ -138,6 +185,15 @@ const Header: React.FC = () => {
                         alt=""
                     />
                 </button>
+                {isUsermenuOpened && (
+                    <ul className="header-usermenu">
+                        <li>숙소 관리</li>
+                        <li onClick={goRegisterRoom}>숙소 등록하기</li>
+                        <div className="header-usermenu-divider"/>
+                        <li>로그아웃</li>
+                    </ul>
+                )}
+                </OutsideClickHandler>
             )}
             <ModalPortal>
                 <AuthModal closeModal={closeModal}/>
