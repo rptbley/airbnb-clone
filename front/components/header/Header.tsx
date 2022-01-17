@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useModal from "../../hooks/useModal";
+import { useSelector } from "../../store";
+import { authActions } from "../../store/auth";
 import palette from "../../styles/palette";
-import SignUpModal from "../auth/SignUpModal";
+import AuthModal from "../auth/AuthModal";
 import CustomImage from "../image/CustomImage";
 
 const Container = styled.div`
@@ -57,12 +60,38 @@ const Container = styled.div`
             }
         }
     }
+
+    .header-user-profile {
+        display: flex;
+        align-items: center;
+        height: 42px;
+        padding: 0 6px 0 16px;
+        border: 0;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.18);
+        border-radius: 21px;
+        background-color: white;
+        cursor: pointer;
+        outline: none;
+        &:hover {
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-user-profile-image {
+            margin-left: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    }
 `;
 
 const Header: React.FC = () => {
-    const { openModal, ModalPortal } = useModal();
+    const user = useSelector(state => state.user);
+
+    const { openModal, ModalPortal, closeModal } = useModal();
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const goHome = () => {
         router.push({pathname: "/"})
@@ -73,20 +102,45 @@ const Header: React.FC = () => {
                 <CustomImage className="header-logo" src={"static/svg/logo/logo.svg"}/>
                 <CustomImage src="static/svg/logo/logo_text.svg"/>
             </div>
-            <div className="header-auth-buttons">
+            {!user.isLogged && (
+                <div className="header-auth-buttons">
                 <button
                     type="button"
                     className="header-sign-up-button"
-                    onClick={openModal}    
+                    onClick={() => {
+                        dispatch(authActions.setAuthMode("signup"));
+                        openModal();
+                    }}    
                 >
                     회원가입
                 </button>
-                <button type="button" className="header-login-button">
+                <button
+                    type="button"
+                    className="header-login-button"
+                    onClick={() => {
+                        dispatch(authActions.setAuthMode("login"));
+                        openModal();
+                    }}
+                >
                     로그인
                 </button>
             </div>
+            )}
+            {user.isLogged && (
+                <button
+                    className="header-user-profile"
+                    type="button"
+                >
+                    <CustomImage src="static/svg/header/hamburger.svg"/>
+                    <img
+                        src={user.userInfo.profileImage}
+                        className="header-user-profile-image"
+                        alt=""
+                    />
+                </button>
+            )}
             <ModalPortal>
-                <SignUpModal/>
+                <AuthModal closeModal={closeModal}/>
             </ModalPortal>
         </Container>
     )
