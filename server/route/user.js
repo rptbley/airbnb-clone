@@ -110,4 +110,14 @@ router.get("/me", async (req, res) => {
     })
 })
 
+router.delete("/logout", async (req, res) => {
+    console.log('test')
+    return res.setHeader(
+        "Set-Cookie",
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly"
+    ).json({
+        msg: "로그아웃 되었습니다."
+    })
+})
+
 module.exports = router;

@@ -4,8 +4,10 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useModal from "../../hooks/useModal";
+import { logoutAPI } from "../../lib/api/auth";
 import { useSelector } from "../../store";
 import { authActions } from "../../store/auth";
+import { userActions } from "../../store/user";
 import palette from "../../styles/palette";
 import AuthModal from "../auth/AuthModal";
 import CustomImage from "../image/CustomImage";
@@ -135,6 +137,15 @@ const Header: React.FC = () => {
     const goRegisterRoom = () => {
         router.push({pathname: "/room/register/building"})
     }
+
+    const logout = async () => {
+        try {
+            await logoutAPI();
+            dispatch(userActions.initUser());
+        } catch(err) {
+            console.log(err)
+        }
+    }
     return (
         <Container>
             <div className="header-logo-wrapper" onClick={goHome}>
@@ -190,7 +201,7 @@ const Header: React.FC = () => {
                         <li>숙소 관리</li>
                         <li onClick={goRegisterRoom}>숙소 등록하기</li>
                         <div className="header-usermenu-divider"/>
-                        <li>로그아웃</li>
+                        <li onClick={logout}>로그아웃</li>
                     </ul>
                 )}
                 </OutsideClickHandler>
