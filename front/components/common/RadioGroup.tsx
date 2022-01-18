@@ -99,6 +99,7 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
             margin-right: 4px;
         }
         p {
+            margin-left: 4px;
             font-size: 12px;
             color: ${palette.davidson_orange};
         }
@@ -147,7 +148,7 @@ const RadioGroup: React.FC<IProps> = ({
             </div>
             {validateMode && !isValid && (
                 <div className="radio-group-warning">
-                    <CustomImage src="static/svg/common/warning.svg" subClassName="image-wrapper"/>
+                    <CustomImage src="/common/warning.svg" subClassName="image-wrapper"/>
                     <p>{errorMsg}</p>
                 </div>
             )}
