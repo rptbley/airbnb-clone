@@ -10,7 +10,7 @@ interface IProps {
 const CustomImage: React.FC<IProps> = ({ className, subClassName, onClick ,src }) => {
     return (
         <>
-            <img className={subClassName} onClick={onClick} src={src} />
+            <img className={subClassName} onClick={onClick} src={`${process.env.NEXT_PUBLIC_IMG_URL}${src}`} />
         </>
     )
 }

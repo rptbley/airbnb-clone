@@ -104,9 +104,9 @@ const HeaderUserProfile: React.FC = () => {
                     type="button"
                     onClick={() => setIsUsermenuOpened(!isUsermenuOpened)}
                 >
-                    <CustomImage src="static/svg/header/hamburger.svg"/>
+                    <CustomImage src="/header/hamburger.svg"/>
                     <img
-                        src={userProfileImage ? userProfileImage : "static/svg/auth/person.svg"}
+                        src={userProfileImage ? userProfileImage : `${process.env.NEXT_PUBLIC_IMG_URL}/auth/person.svg`}
                         className="header-user-profile-image"
                         alt=""
                     />

@@ -52,8 +52,8 @@ const Header: React.FC = () => {
     return (
         <Container>
             <div className="header-logo-wrapper" onClick={goHome}>
-                <CustomImage className="header-logo" src={"static/svg/logo/logo.svg"}/>
-                <CustomImage src="static/svg/logo/logo_text.svg"/>
+                <CustomImage className="header-logo" src={"/logo/logo.svg"}/>
+                <CustomImage src="/logo/logo_text.svg"/>
             </div>
             {!isLogged && <HeaderAuths />}
             {isLogged && <HeaderUserProfile />}
