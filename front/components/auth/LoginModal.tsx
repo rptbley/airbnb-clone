@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useValidateMode from "../../hooks/useValidateMode";

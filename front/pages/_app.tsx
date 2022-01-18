@@ -1,6 +1,6 @@
 import { AppContext, AppProps } from "next/app";
 import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Hydrate, QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Header from "../components/header/Header";
 import axios from "../lib/api";
@@ -27,7 +27,6 @@ const app = ({ Component, pageProps}: AppProps) => {
 app.getInitialProps = wrapper.getInitialPageProps(store => async context => {
     const { ctx, Component } = context;
     const cookieObject = cookieParser(ctx.req?.headers.cookie);
-    
     const { isLogged } = store.getState().user;
 
     try {
@@ -41,8 +40,11 @@ app.getInitialProps = wrapper.getInitialPageProps(store => async context => {
     }
     let pageProps = {};
 
+    if(Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
     return {
-        ...pageProps
+        ...pageProps,
     }
 })
 
