@@ -1,3 +1,5 @@
+import { BedType } from "../types/room";
+
 export const monthList = [
     "1월",
     "2월",
@@ -117,20 +119,20 @@ export const boutiquesHotelBuildingTypeList = [
 
 export const bedroomCountList = Array.from(Array(16), (_, i) => `침실 ${i}개`);
 
-// export const bedTypes: BedType[] = [
-//     "소파",
-//     "에어 매트릭스",
-//     "요와 이불",
-//     "싱글",
-//     "더블",
-//     "퀸",
-//     "이층 침대",
-//     "바닥용 에어매트릭스",
-//     "유아 침대",
-//     "유아용 침대",
-//     "해먹",
-//     "물침대"
-// ]
+export const bedTypes: BedType[] = [
+    "소파",
+    "에어 매트릭스",
+    "요와 이불",
+    "싱글",
+    "더블",
+    "퀸",
+    "이층 침대",
+    "바닥용 에어매트릭스",
+    "유아 침대",
+    "유아용 침대",
+    "해먹",
+    "물침대"
+]
 
 export const countryList = [
     "가나",
