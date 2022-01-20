@@ -219,7 +219,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
 
     return (
         <Container>
-            <CustomImage subClassName="modal-close-x-icon" src="static/svg/modal/modal_close_x_icon.svg" onClick={closeModal}/>
+            <CustomImage subClassName="modal-close-x-icon" src="/modal/modal_close_x_icon.svg" onClick={closeModal}/>
             <div className="input-wrapper">
                 <Input
                     id="email"
@@ -227,7 +227,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     type="email"
                     value={email}
                     onChange={onChange}
-                    icon={<CustomImage src="static/svg/auth/mail.svg"/>}
+                    icon={<CustomImage src="/auth/mail.svg"/>}
                     useValidation
                     isValid={!!email}
                     errorMsg="이메일이 필요합니다."
@@ -239,7 +239,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     value={lastname}
                     placeholder="이름(예: 길동)"
                     onChange={onChange}
-                    icon={<CustomImage src="static/svg/auth/person.svg"/>}
+                    icon={<CustomImage src="/auth/person.svg"/>}
                     useValidation
                     isValid={!!lastname}
                     errorMsg="이름을 입력하세요."
@@ -251,7 +251,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     value={firstname}
                     placeholder="성(예: 홍)"
                     onChange={onChange}
-                    icon={<CustomImage src="static/svg/auth/person.svg"/>}
+                    icon={<CustomImage src="/auth/person.svg"/>}
                     useValidation
                     isValid={!!firstname}
                     errorMsg="성을 입력하세요."
@@ -269,7 +269,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                         <CustomImage
                             subClassName="password-toggle"
                             onClick={passwordView}
-                            src={ togglePw ? "static/svg/auth/opened_eye.svg" : "static/svg/auth/closed_eye.svg" }
+                            src={ togglePw ? "/auth/opened_eye.svg" : "/auth/closed_eye.svg" }
                         />}
                     useValidation
                     isValid={
@@ -334,7 +334,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 </div>
             </div>
             <div className="sign-up-modal-submit-button-wrapper">
-                <Button type="submit" onClick={test}>가입하기</Button>
+                <Button type="submit" color="bittersweet" onClick={test}>가입하기</Button>
             </div>
             <div>
             <p>

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { GetLocationInfo } from "../lib/api/types/map";
 import { BedType } from "../types/room";
 
 
@@ -23,6 +24,16 @@ type RegisterRoomState = {
     }[];
     bathroomCount: number;
     bathroomType: "private" | "public" | null;
+    location: {
+        country: string;
+        city: string;
+        district: string;
+        streetAddress: string;
+        detailAddress: string;
+        postcode: string;
+        latitude: number;
+        longitude: number;
+    }
 }
 
 const initialState: RegisterRoomState = {
@@ -36,7 +47,17 @@ const initialState: RegisterRoomState = {
     bedList: [],
     publicBedList: [],
     bathroomCount: 0,
-    bathroomType: null
+    bathroomType: null,
+    location: {
+        country: "",
+        city: "",
+        district: "",
+        streetAddress: "",
+        detailAddress: "",
+        postcode: "",
+        latitude: 0,
+        longitude: 0
+    }
 }
 
 
@@ -128,6 +149,33 @@ const registerRoom = createSlice({
         },
         setBathroomType(state, action: PayloadAction<"private" | "public">) {
             state.bathroomType = action.payload;
+        },
+        setCountry(state, action: PayloadAction<string>) {
+            state.location.country = action.payload
+        },
+        setCity(state, action: PayloadAction<string>) {
+            state.location.city = action.payload
+        },
+        setDistrict(state, action: PayloadAction<string>) {
+            state.location.district = action.payload
+        },
+        setStreetAddress(state, action: PayloadAction<string>) {
+            state.location.streetAddress = action.payload
+        },
+        setDetailAddress(state, action: PayloadAction<string>) {
+            state.location.detailAddress = action.payload
+        },
+        setPostcode(state, action: PayloadAction<string>) {
+            state.location.postcode = action.payload
+        },
+        setLatitude(state, action: PayloadAction<number>) {
+            state.location.latitude = action.payload
+        },
+        setLongitude(state, action: PayloadAction<number>) {
+            state.location.longitude = action.payload
+        },
+        setLocation(state, action: PayloadAction<GetLocationInfo>) {
+            state.location = action.payload
         }
     }
 })

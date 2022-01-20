@@ -82,8 +82,8 @@ const RegisterRoomPublicTypes: React.FC = () => {
                 </div>
                 <Button
                     onClick={() => setOpened(!opened)}
-                    styleType="register"
-                    color="white"
+                    color="bittersweet"
+                    width="280px"
                 >
                     {opened && "완료"}
                     {!opened && (totalBedsCount === 0 ? "침대 추가하기" : "침대 수정하기")}

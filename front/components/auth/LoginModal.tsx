@@ -107,7 +107,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
 
     return (
         <Container>
-            <CustomImage subClassName="mordal-close-x-icon" src="static/svg/modal/modal_close_x_icon.svg" onClick={closeModal}/>
+            <CustomImage subClassName="mordal-close-x-icon" src="/modal/modal_close_x_icon.svg" onClick={closeModal}/>
             <div className="login-input-wrapper">
                 <Input
                     placeholder="이메일 주소"
@@ -115,7 +115,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
                     name="email"
                     type="email"
                     value={email}
-                    icon={<CustomImage src="static/svg/auth/mail.svg"/>}
+                    icon={<CustomImage src="/auth/mail.svg"/>}
                     onChange={onChange}
                     isValid={email !== ""}
                     errorMsg="이메일이 필요합니다."
@@ -126,7 +126,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
                     placeholder="비밃번호 설정하기"
                     icon={<CustomImage
                             subClassName="image-wrapper"
-                            src={isPwHided ? "static/svg/auth/closed_eye.svg" : "static/svg/auth/opened_eye.svg"}
+                            src={isPwHided ? "/auth/closed_eye.svg" : "/auth/opened_eye.svg"}
                             onClick={() => setIsPwHided(!isPwHided)}
                         />}
                     type={isPwHided ? "password" : "text"}
@@ -140,6 +140,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
             <div className="login-modal-submit-button-wrapper">
                 <Button
                     type="button"
+                    color="bittersweet"
                     onClick={login}
                 >로그인</Button>
             </div>

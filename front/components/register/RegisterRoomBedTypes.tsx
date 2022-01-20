@@ -94,8 +94,8 @@ const RegisterRoomBedTypes: React.FC<IProps> = ({ bedroom }) => {
                     <p className="register-room-bed-type-bedroom-counts">침대 {totalBedsCount}개<br/>{bedsText}</p>
                 </div>
                 <Button
-                    styleType="register"
-                    color="white"
+                    width="280px"
+                    color="bittersweet"
                     onClick={toggleOpened}
                 >
                     {opened && "완료"}
