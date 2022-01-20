@@ -34,6 +34,7 @@ type RegisterRoomState = {
         latitude: number;
         longitude: number;
     }
+    amentities: string[];
 }
 
 const initialState: RegisterRoomState = {
@@ -57,7 +58,8 @@ const initialState: RegisterRoomState = {
         postcode: "",
         latitude: 0,
         longitude: 0
-    }
+    },
+    amentities: []
 }
 
 
@@ -176,6 +178,9 @@ const registerRoom = createSlice({
         },
         setLocation(state, action: PayloadAction<GetLocationInfo>) {
             state.location = action.payload
+        },
+        setAmentities(state, action: PayloadAction<string[]>) {
+            state.amentities = action.payload;
         }
     }
 })
