@@ -14,8 +14,8 @@ const RegisterRoomBedList: React.FC = () => {
     return (
         <Container>
             <ul className="register-room-bed-type-list">
-                {bedList.map((bedroom) => (
-                        <RegisterRoomBedTypes bedroom={bedroom}/>
+                {bedList.map((bedroom, index) => (
+                        <RegisterRoomBedTypes bedroom={bedroom} key={index}/>
                     ))}
                 <RegisterRoomPublicTypes/>
             </ul>

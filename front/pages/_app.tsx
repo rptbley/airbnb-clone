@@ -28,7 +28,7 @@ app.getInitialProps = wrapper.getInitialPageProps(store => async context => {
     const { ctx, Component } = context;
     const cookieObject = cookieParser(ctx.req?.headers.cookie);
     const { isLogged } = store.getState().user;
-
+    
     try {
         if(!isLogged && cookieObject.access_token) {
             axios.defaults.headers.cookie = cookieObject.access_token;

@@ -32,11 +32,18 @@ router.post("/register", async (req, res) => {
 
     const userInfo = await db('select id, email, firstname, lastname, birthday, profileImage from user where email like ?', [email]);
     const token = jwt.sign(String(userInfo[0].id), process.env.JWT_SECRET);
+
+    res.cookie("access_token", token, {
+        path: "/",
+        expires: new Date(Date.now() + 60 * 60 * 24 * 1000 * 3),
+        httpOnly: true
+    })
+    res.cookie("userId", userInfo[0].id, {
+        expires: new Date(Date.now() + 60 * 60 * 24 * 1000 * 3),
+        httpOnly: true
+    })
     
-    return res.setHeader(
-        "Set-Cookie",
-        `access_token=${token}; path=/; expires=${new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString()}; httponly`
-    ).json({
+    res.json({
         isLogged: true,
         msg: "회원가입에 성공하였습니다.",
         userInfo: {
@@ -48,6 +55,7 @@ router.post("/register", async (req, res) => {
             profileImage: userInfo[0].profileImage
         }
     })
+    return res;
 })
 
 router.post("/login", async (req, res) => {
@@ -70,21 +78,28 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign(String(user[0].id), process.env.JWT_SECRET);
     
-    return res.setHeader(
-        "Set-Cookie",
-        `access_token=${token}; path=/; expires=${new Date(Date.now() + 60 * 60 * 24 * 1000 * 3).toUTCString()}; httponly`
-    ).json({
-        isLogged: true,
-        msg: "로그인에 성공하였습니다.",
-        userInfo: {
-            id: user[0].id,
-            email: user[0].email,
-            firstname: user[0].firstname,
-            lastname: user[0].lastname,
-            birthday: user[0].birthday,
-            profileImage: user[0].profileImage
-        }
-    })
+        res.cookie("access_token", token, {
+            path: "/",
+            expires: new Date(Date.now() + 60 * 60 * 24 * 1000 * 3),
+            httpOnly: true
+        })
+        res.cookie("userId", user[0].id, {
+            expires: new Date(Date.now() + 60 * 60 * 24 * 1000 * 3),
+            httpOnly: true
+        })
+        res.json({
+            isLogged: true,
+            msg: "로그인에 성공하였습니다.",
+            userInfo: {
+                id: user[0].id,
+                email: user[0].email,
+                firstname: user[0].firstname,
+                lastname: user[0].lastname,
+                birthday: user[0].birthday,
+                profileImage: user[0].profileImage
+            }    
+        })
+        return res;
 })
 
 router.get("/me", async (req, res) => {

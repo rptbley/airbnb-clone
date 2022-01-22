@@ -109,9 +109,9 @@ const RegisterRoomBuilding: React.FC = () => {
                 return houseBuildingTypeList;
             }
             case "별채": {
-                const { secondaryBuildingTypeList } = require("../../lib/staticData");
-                dispatch(registerRoomActions.setBuildingType(secondaryBuildingTypeList[0]));
-                return secondaryBuildingTypeList;
+                const { secondaryUnitBuildingTypeList } = require("../../lib/staticData");
+                dispatch(registerRoomActions.setBuildingType(secondaryUnitBuildingTypeList[0]));
+                return secondaryUnitBuildingTypeList;
             }
             case "독특한 숙소": {
                 const { uniqueSpaceBuildingTypeList } = require("../../lib/staticData");

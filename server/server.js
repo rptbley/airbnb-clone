@@ -13,11 +13,12 @@ const app = express();
 app.use(cors({ origin: true, credentials: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cookieParser());
+app.use(cookieParser( ));
 
 app.use(express.static('public/static/'));
 
 app.use("/user", require("./route/user"));
+app.use("/photo", require("./route/photo"));
 
 app.set('port', process.env.PORT || 5000);
 
