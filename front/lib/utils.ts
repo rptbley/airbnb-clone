@@ -21,3 +21,8 @@ export const getNumber = (string: string) => {
     }
     return null;
 };
+
+export const makeMoneyString =  (price: string) => {
+    const checkedPrice = price.replace(/[^0-9]/g, "");
+    return Number(checkedPrice).toLocaleString("en-US");    
+}
