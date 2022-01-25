@@ -38,9 +38,26 @@ const getBtnColor = (color: string, colorReverse: boolean) => {
     }
 }
 
+const getBtnSize = (size: "small" | "medium") => {
+    switch(size) {
+        case "medium":
+            return css`
+                height: 48px;
+            `;
+        case "small":
+            return css`
+                font-size: 14px;
+                height: 36px;
+            `;
+        default:
+            return "";
+    }
+};
+
 interface StyledBtnProps {
     width: string | undefined;
     colorReverse: boolean;
+    size: "small" | "medium";
 }
 
 const Container = styled.button<StyledBtnProps>`
@@ -58,6 +75,7 @@ const Container = styled.button<StyledBtnProps>`
     cursor: pointer;
     width: ${(props) => props.width};
     ${(props) => getBtnColor(props.color || "", props.colorReverse)};
+    ${(props) => getBtnSize(props.size)};
 
     image-wrapper {
         margin-right: 12px;
@@ -70,15 +88,17 @@ interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     width?: string;
     colorReverse?: boolean;
     icon?: JSX.Element
+    size?: "small" | "medium";
 };
 
-const Button: React.FC<IProps> = ({ children, color, width, colorReverse = false, icon, ...props }) => {
+const Button: React.FC<IProps> = ({ children, color, width, colorReverse = false, icon, size = "medium", ...props }) => {
     return (
         <Container
             {...props}
             color={color}
             width={width}
             colorReverse={colorReverse}
+            size={size}
         >
             {icon}
             {children}

@@ -3,7 +3,7 @@ import { GetLocationInfo } from "../lib/api/types/map";
 import { BedType } from "../types/room";
 
 
-type RegisterRoomState = {
+export type RegisterRoomState = {
     largeBuildingType: string | null;
     buildingType: string | null;
     roomType: string | null;
