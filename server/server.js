@@ -20,6 +20,7 @@ app.use(express.static('public/static/'));
 app.use("/user", require("./route/user"));
 app.use("/photo", require("./route/photo"));
 app.use("/register", require("./route/register"));
+app.use("/place", require('./route/place'));
 
 app.set('port', process.env.PORT || 5000);
 

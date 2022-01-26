@@ -26,3 +26,21 @@ export const makeMoneyString =  (price: string) => {
     const checkedPrice = price.replace(/[^0-9]/g, "");
     return Number(checkedPrice).toLocaleString("en-US");    
 }
+
+export const makeQueryString = ( baseUrl: string, queriesObejct: { [key: string]: any }) => {
+    const keys = Object.keys(queriesObejct);
+    const values = Object.values(queriesObejct)
+
+    if(keys.length === 0) {
+        return baseUrl;
+    }
+
+    let queryString = `${baseUrl}?`;
+    keys.forEach((key, i) => {
+        if(queriesObejct[key]) {
+            queryString += `${keys[i]}=${values[i]}&`;
+        }
+    })
+
+    return queryString.slice(0, -1);
+}

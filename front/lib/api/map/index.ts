@@ -1,4 +1,5 @@
 import axios from "axios"
+import axios2 from '..';
 import { GetLocationInfo, location } from "../types/map"
 
 export const getLocation = async (param: location) => {
@@ -33,4 +34,12 @@ export const getLocation = async (param: location) => {
         }
         return result;
     }
+}
+
+export const getLocationInfo = async (param: string) => {
+    return axios2.get(`/place/getInfo?keyword=${encodeURI(param)}`);
+}
+
+export const getLocationInfoByPlaceId = async (param: string) => {
+    return axios2.get(`/place/getInfoByPlaceId?placeId=${param}`);
 }
