@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import palette from "../../styles/palette";
-import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "../common/DatePicker";
 import { useSelector } from "../../store";
 import { useDispatch } from "react-redux";
 import { registerRoomActions } from "../../store/registerRoom";
 import RegisterRoomFooter from "./RegisterRoomFooter";
+import moment from "moment";
 
 
 const Container = styled.div`
@@ -75,13 +75,11 @@ const ReigsterRoomDate: React.FC = () => {
     const dispatch = useDispatch();
 
     const onChangeStartDate = (date: Date | null) => {
-        console.log(date);
-        dispatch(registerRoomActions.setStartDate(date ? date.toISOString() : null));
+        dispatch(registerRoomActions.setStartDate(date ? moment(date).format("YYYY-MM-DD") : null));
     }
 
     const onChangeEndDate = (date: Date | null) => {
-        console.log(date);
-        dispatch(registerRoomActions.setEndDate(date ? date.toISOString() : null));
+        dispatch(registerRoomActions.setEndDate(date ? moment(date).format("YYYY-MM-DD") : null));
     }
 
     return (

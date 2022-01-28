@@ -45,6 +45,7 @@ app.getInitialProps = wrapper.getInitialPageProps(store => async context => {
     }
     return {
         ...pageProps,
+        store
     }
 })
 

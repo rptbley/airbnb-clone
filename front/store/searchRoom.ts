@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SearchParam } from "../lib/api/types/room";
 import { SearchRoomState } from "../types/reduxState";
 
 
@@ -45,6 +46,17 @@ const searchRoom = createSlice({
         },
         setPage(state, action: PayloadAction<number>) {
             state.page = action.payload
+        },
+        setAll(state, action: PayloadAction<SearchRoomState>) {
+            state.adultCount = action.payload.adultCount;
+            state.childrenCount = action.payload.childrenCount;
+            state.infantsCount = action.payload.infantsCount;
+            state.checkInDate = action.payload.checkInDate;
+            state.checkOutDate = action.payload.checkOutDate;
+            state.latitude = action.payload.latitude;
+            state.longitude = action.payload.longitude;
+            state.location = action.payload.location;
+            state.page = action.payload.page;
         }
     }
 })

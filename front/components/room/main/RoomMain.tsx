@@ -78,10 +78,8 @@ const RoomMain: React.FC = () => {
 
     const [showMap, setShowMap] = useState(false);
 
-    const getRoomListInfo = `${rooms.length}개의 숙소 ${checkInDate
-        ? `${checkInDate ? format(new Date(checkInDate), "MM월 dd일") : ""}`
-        : ""
-    } ${checkOutDate ? `${checkOutDate ? format(new Date(checkOutDate), "MM월 dd일"): ""}` : ""}`
+    const getRoomListInfo = `${rooms.length}개의 숙소 ${checkInDate ? moment(checkInDate).format("MM월 DD일") : ""} -
+     ${checkOutDate ? moment(checkOutDate).format("MM월 DD일") : ""}`
 
     return (
         <Container>

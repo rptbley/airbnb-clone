@@ -15,28 +15,32 @@ router.post("/roomList", async (req, res) => {
     let locations;
     let date;
     let count;
+    let test = [];
     if(latitude && longitude) {
         locations = ` json_extract(roominfo, '$.location.latitude') > ${Number(latitude) - 0.5}
                      and json_extract(roominfo, '$.location.latitude') < ${Number(latitude) + 0.5}
                      and json_extract(roominfo, '$.location.longitude') > ${Number(longitude) - 0.5}
                      and json_extract(roominfo, '$.location.longitude') < ${Number(longitude) + 0.5}
                     `
+        test.push(locations);
     }
 
     if(checkInDate && checkOutDate) {
-        date = ` json_extract(roominfo, '$.location.startDate) < ${checkInDate} or json_extract(roominfo, '$.location.endDate') > ${checkOutDate}`
+        date = ` json_extract(roominfo, '$.startDate') < ${checkInDate} or json_extract(roominfo, '$.endDate') > ${checkOutDate}`
+        test.push(date);
     }
 
     if(adultCount || childrenCount) {
         count = ` json_extract(roominfo, '$.maximumGuestCount') < ${Number(adultCount) + (Number(childrenCount) * 0.5 || 0)}`
+        test.push(count);
     }
 
-    const test = [locations, date, count];
+    
     test.forEach((res, index) => {
-        if(index === test.length - 1) {
-            wheres = wheres + res;
-        } else {
-            if(res !== undefined) {
+        if(res !== undefined) {
+            if(index === test.length - 1) {
+                wheres = wheres + res;
+            } else {
                 wheres = wheres + res + ` and`;
             }
         }
