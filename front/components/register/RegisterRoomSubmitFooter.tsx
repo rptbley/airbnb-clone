@@ -47,6 +47,7 @@ const RegisterRoomSubmitFooter: React.FC = () => {
         const {data} = await addRoom(param);
         if(data && data.msg) {
             alert(data.msg)
+            location.href = "/"
         }
     };
 

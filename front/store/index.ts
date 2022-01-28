@@ -7,6 +7,8 @@ import common from "./common";
 import registerRoom from "./registerRoom";
 import user from "./user";
 import searchRoom from "./searchRoom";
+import room from "./room";
+import error from "./errors";
 
 
 const rootReducer = combineReducers({
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
     common: common.reducer,
     auth: auth.reducer,
     registerRoom: registerRoom.reducer,
-    searchRoom: searchRoom.reducer
+    searchRoom: searchRoom.reducer,
+    room: room.reducer,
+    error: error.reducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -23,13 +27,32 @@ let initialRootState: RootState;
 
 const reducer = (state: any, action: any) => {
     if(action.type === HYDRATE) {
-        if(state === initialRootState) {
-            return {
-                ...state,
-                ...action.payload
-            };
+        const data = { ...action.payload };
+        let nextState = {
+            ...state,
+            user: {
+                ...data.user
+            },
+            common: {
+                ...data.common
+            },
+            auth:{
+                ...data.auth
+            },
+            registerRoom: {
+                ...data.registerRoom
+            },
+            searchRoom: {
+                ...data.searchRoom
+            },
+            room: {
+                ...data.room
+            },
+            error: {
+                ...data.error
+            }
         }
-        return state;
+        return nextState;
     }
     return rootReducer(state, action);
 }

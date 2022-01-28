@@ -1,3 +1,4 @@
+import { RoomType } from "../lib/api/types/room"
 import { returnUserType } from "../lib/api/types/user"
 
 export type UserState = {
@@ -19,4 +20,14 @@ export type SearchRoomState = {
     adultCount: number;
     childrenCount: number;
     infantsCount: number;
+    limit: number;
+    page: number;
+}
+
+export type RoomState = {
+    rooms: RoomType[];
+}
+
+export type ErrorState = {
+    error?: string;
 }

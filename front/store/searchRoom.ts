@@ -10,7 +10,9 @@ const initialState: SearchRoomState = {
     checkOutDate: null,
     adultCount: 0,
     childrenCount: 0,
-    infantsCount: 0
+    infantsCount: 0,
+    limit: 20,
+    page: 0
 };
 
 const searchRoom = createSlice({
@@ -40,6 +42,9 @@ const searchRoom = createSlice({
         },
         setLongitude(state, action: PayloadAction<number>) {
             state.longitude = action.payload;
+        },
+        setPage(state, action: PayloadAction<number>) {
+            state.page = action.payload
         }
     }
 })
