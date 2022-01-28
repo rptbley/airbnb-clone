@@ -1,14 +1,27 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { format } from "util";
 import { useSelector } from "../../../store";
 import palette from "../../../styles/palette";
 import CustomImage from "../../image/CustomImage";
 import RoomList from "./RoomList";
 import moment from 'moment';
+import dynamic from "next/dynamic";
 
+const RoomListMap = dynamic(() => import("./RoomListMap"), { ssr: false });
 
-const Container = styled.div`
+const Container = styled.div<{ showMap: boolean }>`
+    ${({ showMap }) =>
+        showMap && css`
+            width: 840px;
+            padding: 50px 24px;
+            margin: 0;
+        `
+    }
+    .flex {
+        display: flex
+    }
+
     padding: 50px 80px;
     margin: auto;
 
@@ -82,7 +95,7 @@ const RoomMain: React.FC = () => {
      ${checkOutDate ? moment(checkOutDate).format("MM월 DD일") : ""}`
 
     return (
-        <Container>
+        <Container showMap={showMap}>
             <p className="room-list-info">{getRoomListInfo}</p>
             <h1 className="room-list-title">숙소</h1>
             <div className="room-list-buttons">
@@ -90,7 +103,7 @@ const RoomMain: React.FC = () => {
                     <button type="button">숙소 유형</button>
                     <button type="button">요금</button>
                 </div>
-                <button
+                {!showMap && <button
                     type="button"
                     className="room-list-show-map-button"
                     onClick={() => {
@@ -98,10 +111,11 @@ const RoomMain: React.FC = () => {
                     }}
                 >
                     <CustomImage src="/room/main/map.svg" subClassName="image-wrapper"/> 지도 표시하기
-                </button>
+                </button>}
             </div>
             <div className="room-list-wrapper">
                     <RoomList showMap={showMap}/>
+                    {showMap && <RoomListMap showMap={showMap} setShowMap={setShowMap}/>}
             </div>
         </Container>
     )

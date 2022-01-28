@@ -94,7 +94,6 @@ const Container = styled.li<{ showMap: boolean }>`
                 }
                 .room-card-photo-wrapper {
                     width: 300px;
-                    min-width: 300px;
                     height: 200px;
                     margin-right: 16px;
                     margin-bottom: 0;
@@ -108,7 +107,6 @@ const Container = styled.li<{ showMap: boolean }>`
                 }
                 .room-card-title {
                     font-size: 18px;
-                    white-space: break-spaces;
                     margin-bottom: 11px;
                 }
                 .room-card-text-divider {
