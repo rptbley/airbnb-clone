@@ -4,7 +4,8 @@ import { RoomState } from "../types/reduxState";
 
 
 const initialState: RoomState = {
-    rooms: []
+    rooms: [],
+    detail: null
 }
 
 const room = createSlice({
@@ -13,6 +14,9 @@ const room = createSlice({
     reducers: {
         setRooms(state, action: PayloadAction<RoomType[]>) {
             state.rooms = action.payload;
+        },
+        setDetail(state, action: PayloadAction<RoomType>) {
+            state.detail = action.payload;
         }
     }
 })

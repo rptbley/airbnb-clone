@@ -6,13 +6,14 @@ interface IProps {
     onClick?: () => void;
     src: string | undefined;
     type?: "svg" | "img";
+    alt?: string;
 }
 
-const CustomImage: React.FC<IProps> = ({ className, subClassName, onClick ,src, type = "svg" }) => {
+const CustomImage: React.FC<IProps> = ({ className, subClassName, onClick ,src, type = "svg", alt }) => {
     return (
         <>
             {type === "svg" && (<img className={subClassName} onClick={onClick} src={`${process.env.NEXT_PUBLIC_IMG_URL}${src}`} />)}
-            {type === "img" && (<img className={subClassName} onClick={onClick} src={`${process.env.NEXT_PUBLIC_IMG_URL_2}${src}`} />)}
+            {type === "img" && (<img className={subClassName} onClick={onClick} src={`${process.env.NEXT_PUBLIC_IMG_URL_2}${src}`} alt={alt}/>)}
         </>
     )
 }

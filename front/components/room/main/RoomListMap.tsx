@@ -21,7 +21,7 @@ const Container = styled.div`
         display: none;
     }
 
-    .gm-fullscreen-constrol {
+    .gm-fullscreen-control {
         display: none;
     }
 

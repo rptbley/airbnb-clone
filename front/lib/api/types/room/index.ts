@@ -31,3 +31,13 @@ export type SearchParam = {
     limit?: number;
     page: number;
 }
+
+export type StoredReservationParam = {
+    userId: number;
+    roomId: number;
+    checkInDate: string;
+    checkOutDate: string;
+    adultCount: number;
+    childrenCount: number;
+    infantsCount: number;
+}

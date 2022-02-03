@@ -45,6 +45,10 @@ router.post("/roomList", async (req, res) => {
             }
         }
     })
+
+    if(test.length === 0) {
+        wheres = ``;
+    }
     
     try {
         const result = await db(sqlQuery + wheres + ` limit ?, ?`, [page, limit]);
@@ -69,6 +73,55 @@ router.post("/roomList", async (req, res) => {
     } catch (e) {
         console.log(e)
         return res.end();
+    }
+})
+
+router.get("/detailRoom", async (req, res) => {
+    const { roomNo } = req.query;
+
+    try {
+        const result = await db("select * from room where no = ?", [roomNo]);
+        
+        const host = await db("select * from user where id = ?", [result[0].hostid]);
+        const tmpObj = {
+            ...result[0],
+            host: host[0]
+        }
+
+        return res.send(tmpObj);
+    } catch (e) {
+        console.log(e)
+        return res.end();
+    }
+})
+
+router.post("/reservation", async (req, res) => {
+    const {
+        userId, roomId,
+        checkInDate, checkOutDate,
+        adultCount, childrenCount, infantsCount
+    } = req.body;
+
+    try {
+        const result = await db("insert into reservation (userId, roomId, checkInDate, checkOutDate, adultCount, childrenCount, infantsCount) value(?,?,?,?,?,?,?)",
+        [userId, roomId, checkInDate, checkOutDate, adultCount, childrenCount, infantsCount])
+        if(result.affectedRows <= 0) {
+            return res.json({
+                retNum: 0,
+                msg: "예약 실패"
+            })
+        }
+
+        return res.json({
+            retNum: 1,
+            msg: "예약 성공"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            retNum: 2,
+            msg: "에러 발생"
+        })
     }
 })
 
